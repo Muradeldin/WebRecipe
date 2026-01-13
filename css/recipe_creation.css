@@ -1,0 +1,98 @@
+/* css/add-recipe.css */
+
+/* Layout */
+.form-card {
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.section-title {
+  color: var(--navy);
+  margin: 18px 0 8px;
+  font-size: 18px;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  vertical-align: top;
+}
+
+th {
+  background: #f7f7f7;
+}
+
+.row-actions {
+  white-space: nowrap;
+  width: 1%;
+}
+
+/* Buttons */
+.mini-btn {
+  margin-top: 7px;  
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.mini-btn.add {
+  background: var(--orange);
+  color: var(--navy);
+}
+
+.mini-btn.remove {
+  background: #d9534f;
+  color: #fff;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="number"],
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Messages */
+.success {
+  background: #d4edda;
+  color: #155724;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 12px;
+  display: none;
+}
+
+.error {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 12px;
+  display: none;
+}
+
+table input[type="text"],
+table input[type="number"] {
+  width: 100%;
+  min-height: 40px;        /* height */
+  padding: 8px 10px;      /* inner spacing */
+  font-size: 16px;        /* readable text */
+  box-sizing: border-box; /* critical */
+}

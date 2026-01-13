@@ -1,0 +1,350 @@
+/* Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --navy: #1B3C59;
+    --green: #2F7366;
+    --orange: #F29F05;
+    --bg: #f5f5f5;
+    --text: #333;
+    --card: #ffffff;
+    --shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url("../images/Background%20image.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: var(--text);
+    line-height: 1.6;
+    direction: rtl;
+}
+
+/* --- Header (base) --- */
+header {
+    background-color: var(--navy);
+    padding: 15px 20px;
+    text-align: center;
+    border-bottom: 5px solid var(--green);
+}
+
+.site-logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid white;
+    background-color: white;
+    margin-bottom: 10px;
+    object-fit: cover;
+}
+
+/* Navigation list (used in index.html) */
+nav ul {
+    list-style: none;
+    margin-top: 10px;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+nav a:hover,
+nav a.active {
+    color: var(--orange);
+    text-decoration: underline;
+}
+
+/* --- Buttons (used everywhere) --- */
+.cta-button {
+    background-color: var(--orange);
+    color: var(--navy);
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.cta-button:hover {
+    background-color: #d98e04;
+}
+
+/* --- Card section box (used in index/team/personal pages) --- */
+.interactive-section {
+    width: 90%;
+    max-width: 700px;
+    margin: 40px auto;
+    background-color: var(--card);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    border-top: 5px solid var(--orange);
+}
+
+/* Forms (index.html uses these) */
+.form-group {
+    margin: 20px 0;
+    text-align: right;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    text-align: right;
+}
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.output-box {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+/* --- Hero + Features (index only) --- */
+.hero {
+    background-image: url('https://images.unsplash.com/photo-1495521821758-ee18ece6d660?auto=format&fit=crop&w=1000');
+    background-size: cover;
+    background-position: center;
+    padding: 80px 20px;
+    text-align: center;
+    color: var(--navy);
+}
+
+.hero-content {
+    background-color: rgba(255, 255, 255, 0.95);
+    display: inline-block;
+    padding: 40px;
+    border-radius: 8px;
+    max-width: 700px;
+}
+
+.hero h1 {
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.features {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background-color: var(--card);
+    flex: 1;
+    min-width: 250px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+    border-bottom: 4px solid var(--green);
+}
+
+.feature-card h3 {
+    color: var(--navy);
+    margin-bottom: 10px;
+}
+
+/* --- Footer --- */
+footer {
+    background-color: var(--navy);
+    color: white;
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 50px;
+}
+
+footer p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #ddd;
+}
+
+
+/* --- Recipes Page --- */
+.page-title {
+    text-align: center;
+    margin: 30px 0 10px;
+    color: var(--card);
+}
+
+.page-subtitle{
+    text-align:center;
+    margin-bottom: 25px;
+    color:  #ffffff;
+    padding: 0 15px;
+    font-weight: bold;
+}
+
+.recipes-section{
+    padding: 10px 20px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.recipes-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.recipe-card{
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.recipe-card img{
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display:block;
+}
+
+.recipe-content{
+    padding: 15px;
+    display:flex;
+    flex-direction:column;
+    gap: 10px;
+}
+
+.recipe-content h3{
+    color: var(--navy);
+    font-size: 18px;
+}
+
+.recipe-meta{
+    font-size: 13px;
+    color: #666;
+}
+
+.recipe-actions{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.recipe-actions a{
+    text-decoration: none;
+}
+
+.video-wrap{
+    padding: 0 15px 15px;
+    display:none;
+}
+
+.video-wrap.show{
+    display:block;
+}
+
+.video-wrap iframe{
+    width:100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: 10px;
+}
+
+/* ===== Recipe Details Pages (Single Recipe) ===== */
+
+.recipe-page {
+  text-align: right;
+}
+
+.recipe-hero-img {
+  width: 100%;
+  max-width: 650px;
+  border-radius: 10px;
+  display: block;
+  margin: 0 auto 20px;
+}
+
+.recipe-meta-block {
+  margin-bottom: 15px;
+}
+
+.recipe-section-title {
+  color: var(--navy);
+  margin: 10px 0;
+}
+
+.recipe-list {
+  padding-right: 18px;
+  line-height: 1.9;
+}
+
+.recipe-ingredients {
+  margin-bottom: 20px;
+}
+
+.recipe-actions-center {
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.recipe-actions a {
+  text-decoration: none;
+}
+
+/* ===== Recipe Video ===== */
+
+.recipe-video {
+  max-width: 650px;
+  margin: 20px auto;
+}
+
+.recipe-video video {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.cta-button.delete-button {
+  background-color: #d32f2f;
+  border: 1px solid #b71c1c;
+}
+
+.cta-button.delete-button:hover {
+  background-color: #b71c1c;
+}

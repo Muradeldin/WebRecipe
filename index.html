@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Flavor Forge - דף הבית</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo-container">
+        <img src="images/logo.png" alt="לוגו The Flavor Forge" class="site-logo">
+    </div>
+    <nav>
+        <ul>
+            <li><a href="#" class="active">דף הבית</a></li>
+            <li><a href="recipes.php">כל המתכונים</a></li>
+            <li><a href="add-recipe.php">הוסף מתכון</a></li>
+            <li><a href="team.html">הצוות שלנו</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>ברוכים הבאים ל-The Flavor Forge</h1>
+        <p>מוראד, אדהם ונטלי מציגים: המקום האולטימטיבי לניהול היצירתיות שלכם במטבח.</p>
+        <button class="cta-button" onclick="window.location.href='recipes.php'">
+            התחל לבשל
+        </button>
+    </div>
+</section>
+
+<section class="features">
+    <div class="feature-card">
+        <h3>🔥 מתכונים חמים</h3>
+        <p>גלו את המנות הכי טרנדיות.</p>
+    </div>
+    <div class="feature-card">
+        <h3>📖 ספר מתכונים דיגיטלי</h3>
+        <p>שמרו את כל סודות המשפחה.</p>
+    </div>
+</section>
+
+<section id="contact" class="interactive-section">
+    <h2 style="text-align:center; margin-bottom:30px; color:#1B3C59;">
+        צור קשר
+    </h2>
+
+    <form action="mailto:team@flavorforge.com" method="post" enctype="text/plain" onsubmit="sendMessage(event)">
+        <div class="form-group">
+            <label for="name">שם:</label>
+            <input type="text" id="name" name="name" placeholder="הכנס את שמך" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">אימייל:</label>
+            <input type="email" id="email" name="email" placeholder="הכנס את האימייל שלך" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">טלפון:</label>
+            <input type="tel" id="phone" name="phone" placeholder="הכנס מספר טלפון" required>
+        </div>
+
+        <div class="form-group">
+            <label for="message">הודעה:</label>
+            <textarea id="message" name="message" placeholder="הכנס את ההודעה שלך" required></textarea>
+        </div>
+
+        <button type="submit" class="cta-button">שלח הודעה</button>
+        <div id="message-output" class="output-box" style="display:none;"></div>
+    </form>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <h3>The Flavor Forge</h3>
+        <p>פותח על ידי: <strong>נטלי, אדהם, מוראד</strong></p>
+        <p>
+            צרו קשר:
+            <a href="mailto:team@flavorforge.com" style="color:#F29F05;">
+                team@flavorforge.com
+            </a>
+        </p>
+        <p>&copy; 2025 פרויקט המרכז האקדמי רופין</p>
+    </div>
+</footer>
+
+</body>
+</html>
