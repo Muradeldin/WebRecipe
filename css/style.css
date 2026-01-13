@@ -319,6 +319,22 @@ footer p {
   margin-bottom: 20px;
 }
 
+.recipe-ingredients .ingredient-item {
+    display: flex;
+    gap: 6px;
+    align-items: baseline;
+    padding: 4px 0;
+}
+
+.ingredient-amount {
+    font-weight: bold;
+    min-width: 32px;
+}
+
+.ingredient-measurement {
+    color: #555;
+}
+
 .recipe-actions-center {
   justify-content: center;
   margin-top: 15px;
@@ -326,6 +342,57 @@ footer p {
 
 .recipe-actions a {
   text-decoration: none;
+}
+
+.servings-control {
+    background: #f8f8f8;
+    border: 1px solid #e2e2e2;
+    border-radius: 10px;
+    padding: 14px;
+    margin: 10px 0 18px;
+}
+
+.servings-control label {
+    display: block;
+    font-weight: bold;
+    color: var(--navy);
+    margin-bottom: 8px;
+}
+
+.servings-control-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.servings-control input[type="number"] {
+    width: 140px;
+    padding: 8px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.servings-control .cta-button {
+    margin-top: 0;
+}
+
+.cta-button.secondary {
+    background-color: #f3f3f3;
+    color: var(--navy);
+    border: 1px solid #ccc;
+}
+
+.cta-button.secondary:hover {
+    background-color: #e0e0e0;
+}
+
+.servings-hint {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #555;
 }
 
 /* ===== Recipe Video ===== */

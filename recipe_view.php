@@ -52,6 +52,8 @@ $diffText = $diffNum !== null ? ($diffMap[$diffNum] ?? (string)$diffNum) : "";
 
 // Servings: keep as text
 $servingsText = $recipe["serving"] !== null ? (string)$recipe["serving"] : "";
+$servingsNumeric = is_numeric($servingsText) ? (float)$servingsText : null;
+$servingsInputDefault = $servingsNumeric !== null ? $servingsNumeric : 1;
 
 // Image fallback: logo
 $imageSrc = trim((string)($recipe["image_src"] ?? ""));
@@ -125,12 +127,33 @@ foreach ($steps as $s) {
     <?php endif; ?>
 
     <?php if ($diffText !== ""): ?>
-      <span> רמת קושי: <?= h($diffText) ?></span>
+      <span>• רמת קושי: <?= h($diffText) ?></span>
     <?php endif; ?>
 
     <?php if ($servingsText !== ""): ?>
-      <span>🍽 מנות: <?= h($servingsText) ?></span>
+      <span>• מנות: <?= h($servingsText) ?></span>
     <?php endif; ?>
+  </div>
+
+  <div
+    class="servings-control"
+    id="servingsControl"
+    data-base-servings="<?= h($servingsText) ?>">
+    <label for="servingsInput">חשב כמויות לפי מספר מנות</label>
+    <div class="servings-control-actions">
+      <input
+        type="number"
+        id="servingsInput"
+        min="0.25"
+        step="0.25"
+        value="<?= h((string)$servingsInputDefault) ?>"
+      />
+      <button type="button" class="cta-button" id="servingsApply">חשב</button>
+      <button type="button" class="cta-button secondary" id="servingsReset">איפוס</button>
+    </div>
+    <p class="servings-hint">
+      <?= $servingsText !== "" ? "מבוסס על {$servingsText} מנות" : "לא צוין מספר מנות, ברירת מחדל 1" ?>
+    </p>
   </div>
 
   <?php if ($videoEnabled): ?>
@@ -151,8 +174,27 @@ foreach ($steps as $s) {
     <?php if (count($ingredientsOut) === 0): ?>
       <li>לא נמצאו מצרכים.</li>
     <?php else: ?>
-      <?php foreach ($ingredientsOut as $line): ?>
-        <li><?= h($line) ?></li>
+      <?php foreach ($ings as $i): ?>
+        <?php
+          $name = trim((string)($i["name"] ?? ""));
+          if ($name === "") continue;
+
+          $amount = trim((string)($i["amount"] ?? ""));
+          $measurement = trim((string)($i["measurement"] ?? ""));
+        ?>
+        <li
+          class="ingredient-item"
+          data-base-amount="<?= h($amount) ?>"
+          data-measurement="<?= h($measurement) ?>"
+          data-name="<?= h($name) ?>">
+          <?php if ($amount !== ""): ?>
+            <span class="ingredient-amount"><?= h($amount) ?></span>
+          <?php endif; ?>
+          <?php if ($measurement !== ""): ?>
+            <span class="ingredient-measurement"><?= h($measurement) ?></span>
+          <?php endif; ?>
+          <span class="ingredient-name"><?= h($name) ?></span>
+        </li>
       <?php endforeach; ?>
     <?php endif; ?>
   </ul>
@@ -177,7 +219,7 @@ foreach ($steps as $s) {
       </a>
 
       <form method="post"
-            action="delete_recipe.php"
+            action="/php_db/delete_recipe.php"
             onsubmit="return confirm('האם אתה בטוח שברצונך למחוק מתכון זה?');"
             style="display:inline-block;">
 
@@ -202,6 +244,109 @@ foreach ($steps as $s) {
 </footer>
 
 <script src="js/main.js"></script>
+
+<script>
+(function servingsCalculator() {
+  const control = document.getElementById('servingsControl');
+  if (!control) return;
+
+  const input = document.getElementById('servingsInput');
+  const applyBtn = document.getElementById('servingsApply');
+  const resetBtn = document.getElementById('servingsReset');
+  const hint = control.querySelector('.servings-hint');
+
+  const baseServingsRaw = (control.dataset.baseServings || '').trim();
+  const baseServingsParsed = parseAmount(baseServingsRaw);
+  const fallbackBaseServings = baseServingsParsed || parseAmount(input?.value || '') || 1;
+
+  const ingredients = Array.from(document.querySelectorAll('.recipe-ingredients .ingredient-item')).map((li) => ({
+    element: li,
+    baseAmountRaw: (li.dataset.baseAmount || '').trim(),
+    baseAmount: parseAmount(li.dataset.baseAmount || ''),
+    amountSpan: li.querySelector('.ingredient-amount'),
+  }));
+
+  function parseAmount(raw) {
+    if (!raw) return null;
+    const clean = raw.replace(',', '.').trim();
+
+    // Handle mixed numbers like "1 1/2"
+    const mixed = clean.match(/^(-?\d+)\s+(\d+)\/(\d+)$/);
+    if (mixed) {
+      const whole = Number(mixed[1]);
+      const num = Number(mixed[2]);
+      const den = Number(mixed[3]) || 1;
+      return whole + num / den;
+    }
+
+    // Handle simple fractions "3/4"
+    const frac = clean.match(/^(-?\d+)\/(\d+)$/);
+    if (frac) {
+      const num = Number(frac[1]);
+      const den = Number(frac[2]) || 1;
+      return num / den;
+    }
+
+    const num = Number(clean);
+    return Number.isFinite(num) ? num : null;
+  }
+
+  function formatAmount(val) {
+    if (!Number.isFinite(val)) return '';
+    if (Math.abs(val - Math.round(val)) < 0.001) return String(Math.round(val));
+    return parseFloat(val.toFixed(2)).toString();
+  }
+
+  function updateHint(target) {
+    if (!hint) return;
+    const baseText = baseServingsRaw !== '' ? baseServingsRaw : formatAmount(fallbackBaseServings);
+    const currentText = target ? formatAmount(target) : baseText;
+    hint.textContent = `מבוסס על ${baseText} מנות • עכשיו: ${currentText} מנות`;
+  }
+
+  function applyScale() {
+    const target = parseAmount(input?.value || '');
+    if (!target || target <= 0) return;
+
+    const factor = target / fallbackBaseServings;
+
+    ingredients.forEach((item) => {
+      if (item.baseAmount === null || !item.amountSpan) return;
+      const scaled = item.baseAmount * factor;
+      item.amountSpan.textContent = formatAmount(scaled);
+    });
+
+    updateHint(target);
+  }
+
+  function resetScale() {
+    const base = baseServingsParsed || fallbackBaseServings;
+    if (input) input.value = formatAmount(base);
+
+    ingredients.forEach((item) => {
+      if (item.amountSpan) item.amountSpan.textContent = item.baseAmountRaw;
+    });
+
+    hint.textContent = baseServingsRaw !== ''
+      ? `מבוסס על ${baseServingsRaw} מנות`
+      : `מבוסס על ${formatAmount(base)} מנות`;
+  }
+
+  applyBtn?.addEventListener('click', (ev) => {
+    ev.preventDefault();
+    applyScale();
+  });
+
+  input?.addEventListener('change', applyScale);
+
+  resetBtn?.addEventListener('click', (ev) => {
+    ev.preventDefault();
+    resetScale();
+  });
+
+  resetScale();
+})();
+</script>
 
 <?php if ($videoEnabled): ?>
 <script>
