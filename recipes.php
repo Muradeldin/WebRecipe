@@ -14,7 +14,7 @@ $stmt = $pdo->query("
 ");
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Difficulty: numeric (1-5) -> Hebrew text (optional, but nicer)
+// Difficulty: numeric (1-5) -> Hebrew text (optional)
 $diffMap = [
   1 => "קל",
   2 => "קל-בינוני",
@@ -42,6 +42,7 @@ $diffMap = [
       <li><a href="index.html">דף הבית</a></li>
       <li><a class="active" href="recipes.php">כל המתכונים</a></li>
       <li><a href="add-recipe.php">הוסף מתכון</a></li>
+      <li><a href="recipe-calculator.php">מחשבון מתכונים</a></li>
       <li><a href="team.html">הצוות</a></li>
     </ul>
   </nav>
@@ -53,52 +54,63 @@ $diffMap = [
 </p>
 
 <main class="recipes-section">
-  <section aria-label="רשימת מתכונים" class="recipes-grid">
-    <?php if (count($rows) === 0): ?>
+  <section aria-label="רשימת מתכונים" class="recipes-grid" id="recipesGrid">
+
+    <?php if (!$rows): ?>
       <p>אין מתכונים להצגה.</p>
     <?php else: ?>
+
       <?php foreach ($rows as $r): ?>
         <?php
           $id = (int)$r["id"];
-          $title = trim((string)($r["title"] ?? ""));
-          if ($title === "") $title = "ללא שם";
+          $title = trim((string)($r["title"] ?? "")) ?: "מתכון";
 
           $prep = $r["prep_minutes"] !== null ? (int)$r["prep_minutes"] : null;
           $diffNum = $r["difficulty"] !== null ? (int)$r["difficulty"] : null;
           $diffText = $diffNum !== null ? ($diffMap[$diffNum] ?? (string)$diffNum) : "";
 
-          $hasVideo = trim((string)($r["video_src"] ?? "")) !== "";
-
-          $img = trim((string)($r["image_src"] ?? ""));
-          if ($img === "") $img = "images/logo.png";
-
-          // Build meta line
           $metaParts = [];
           if ($prep !== null) $metaParts[] = "זמן הכנה: {$prep} דק׳";
           if ($diffText !== "") $metaParts[] = "רמת קושי: {$diffText}";
           $meta = implode(" • ", $metaParts);
+
+          $img = trim((string)($r["image_src"] ?? ""));
+          if ($img === "") $img = "images/logo.png";
+
+          $hasVideo = trim((string)($r["video_src"] ?? "")) !== "";
+
+          $page = "recipe_view.php?id=" . $id;
         ?>
 
-        <!-- Card -->
+        <!-- EXACT structure like recipes-list.js -->
         <article class="recipe-card">
-          <a href="<?= h("recipe_view.php?id=" . $id) ?>" class="recipe-card-link">
-            <img class="recipe-card-img" src="<?= h($img) ?>" alt="<?= h($title) ?>" />
-            <div class="recipe-card-body">
-              <h2 class="recipe-card-title"><?= h($title) ?></h2>
 
-              <?php if ($meta !== ""): ?>
-                <p class="recipe-card-meta"><?= h($meta) ?></p>
-              <?php endif; ?>
+          <?php if ($img !== ""): ?>
+            <img src="<?= h($img) ?>" alt="<?= h($title) ?>" />
+          <?php endif; ?>
 
-              <?php if ($hasVideo): ?>
-                <span class="recipe-card-badge">כולל וידיאו</span>
-              <?php endif; ?>
+          <div class="recipe-content">
+            <h3><?= h($title) ?></h3>
+
+            <div class="recipe-meta"><?= h($meta) ?></div>
+
+            <div class="recipe-actions">
+              <a class="cta-button" href="<?= h($page) ?>">למתכון המלא</a>
             </div>
-          </a>
+
+            <?php if ($hasVideo): ?>
+              <div style="margin-top:10px;font-size:12px;opacity:0.85;">
+                כולל וידאו 🎥
+              </div>
+            <?php endif; ?>
+          </div>
+
         </article>
 
       <?php endforeach; ?>
+
     <?php endif; ?>
+
   </section>
 </main>
 
@@ -108,6 +120,7 @@ $diffMap = [
 </footer>
 
 <script src="js/main.js"></script>
+<!-- removed: recipes-list.js and JSON -->
 
 </body>
 </html>

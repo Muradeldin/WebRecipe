@@ -105,6 +105,7 @@ foreach ($steps as $s) {
       <li><a href="index.html">דף הבית</a></li>
       <li><a href="recipes.php">כל המתכונים</a></li>
       <li><a href="add-recipe.php">הוסף מתכון</a></li>
+      <li><a href="recipe-calculator.php">מחשבון מתכונים</a></li>
       <li><a href="team.html">הצוות</a></li>
     </ul>
   </nav>
@@ -139,18 +140,11 @@ foreach ($steps as $s) {
     class="servings-control"
     id="servingsControl"
     data-base-servings="<?= h($servingsText) ?>">
-    <label for="servingsInput">חשב כמויות לפי מספר מנות</label>
-    <div class="servings-control-actions">
-      <input
-        type="number"
-        id="servingsInput"
-        min="0.25"
-        step="0.25"
-        value="<?= h((string)$servingsInputDefault) ?>"
-      />
-      <button type="button" class="cta-button" id="servingsApply">חשב</button>
-      <button type="button" class="cta-button secondary" id="servingsReset">איפוס</button>
-    </div>
+    <label for="servingsInput">
+      <a href="recipe-calculator.php" style="color: #2F7366; text-decoration: none; font-weight: bold;">
+         חשב כמויות בעמוד מחשבון מתכונים
+      </a>
+    </label>
     <p class="servings-hint">
       <?= $servingsText !== "" ? "מבוסס על {$servingsText} מנות" : "לא צוין מספר מנות, ברירת מחדל 1" ?>
     </p>
@@ -158,14 +152,9 @@ foreach ($steps as $s) {
 
   <?php if ($videoEnabled): ?>
     <div class="recipe-actions recipe-actions-center">
-      <button class="cta-button" type="button" id="toggleVideoBtn">הצג וידאו</button>
-    </div>
-
-    <div class="video-wrap" id="recipeVideo" style="display:none;">
-      <video controls>
-        <source src="<?= h($videoSrc) ?>" type="video/mp4" />
-        הדפדפן שלך לא תומך בוידאו.
-      </video>
+      <a href="<?= h($videoSrc) ?>" target="_blank" rel="noopener noreferrer" class="cta-button">
+        צפה בוידאו
+      </a>
     </div>
   <?php endif; ?>
 
@@ -239,129 +228,15 @@ foreach ($steps as $s) {
 </main>
 
 <footer>
-  <p>© 2025 The Flavor Forge</p>
-  <p>כל הזכויות שמורות</p>
+    <div class="footer-content">
+        <p>2026 The Flavor Forge &copy;</p>
+        <p>פותח על ידי: <strong>נטלי, אדהם, מוראד</strong></p>
+    </div>
 </footer>
 
 <script src="js/main.js"></script>
 
-<script>
-(function servingsCalculator() {
-  const control = document.getElementById('servingsControl');
-  if (!control) return;
-
-  const input = document.getElementById('servingsInput');
-  const applyBtn = document.getElementById('servingsApply');
-  const resetBtn = document.getElementById('servingsReset');
-  const hint = control.querySelector('.servings-hint');
-
-  const baseServingsRaw = (control.dataset.baseServings || '').trim();
-  const baseServingsParsed = parseAmount(baseServingsRaw);
-  const fallbackBaseServings = baseServingsParsed || parseAmount(input?.value || '') || 1;
-
-  const ingredients = Array.from(document.querySelectorAll('.recipe-ingredients .ingredient-item')).map((li) => ({
-    element: li,
-    baseAmountRaw: (li.dataset.baseAmount || '').trim(),
-    baseAmount: parseAmount(li.dataset.baseAmount || ''),
-    amountSpan: li.querySelector('.ingredient-amount'),
-  }));
-
-  function parseAmount(raw) {
-    if (!raw) return null;
-    const clean = raw.replace(',', '.').trim();
-
-    // Handle mixed numbers like "1 1/2"
-    const mixed = clean.match(/^(-?\d+)\s+(\d+)\/(\d+)$/);
-    if (mixed) {
-      const whole = Number(mixed[1]);
-      const num = Number(mixed[2]);
-      const den = Number(mixed[3]) || 1;
-      return whole + num / den;
-    }
-
-    // Handle simple fractions "3/4"
-    const frac = clean.match(/^(-?\d+)\/(\d+)$/);
-    if (frac) {
-      const num = Number(frac[1]);
-      const den = Number(frac[2]) || 1;
-      return num / den;
-    }
-
-    const num = Number(clean);
-    return Number.isFinite(num) ? num : null;
-  }
-
-  function formatAmount(val) {
-    if (!Number.isFinite(val)) return '';
-    if (Math.abs(val - Math.round(val)) < 0.001) return String(Math.round(val));
-    return parseFloat(val.toFixed(2)).toString();
-  }
-
-  function updateHint(target) {
-    if (!hint) return;
-    const baseText = baseServingsRaw !== '' ? baseServingsRaw : formatAmount(fallbackBaseServings);
-    const currentText = target ? formatAmount(target) : baseText;
-    hint.textContent = `מבוסס על ${baseText} מנות • עכשיו: ${currentText} מנות`;
-  }
-
-  function applyScale() {
-    const target = parseAmount(input?.value || '');
-    if (!target || target <= 0) return;
-
-    const factor = target / fallbackBaseServings;
-
-    ingredients.forEach((item) => {
-      if (item.baseAmount === null || !item.amountSpan) return;
-      const scaled = item.baseAmount * factor;
-      item.amountSpan.textContent = formatAmount(scaled);
-    });
-
-    updateHint(target);
-  }
-
-  function resetScale() {
-    const base = baseServingsParsed || fallbackBaseServings;
-    if (input) input.value = formatAmount(base);
-
-    ingredients.forEach((item) => {
-      if (item.amountSpan) item.amountSpan.textContent = item.baseAmountRaw;
-    });
-
-    hint.textContent = baseServingsRaw !== ''
-      ? `מבוסס על ${baseServingsRaw} מנות`
-      : `מבוסס על ${formatAmount(base)} מנות`;
-  }
-
-  applyBtn?.addEventListener('click', (ev) => {
-    ev.preventDefault();
-    applyScale();
-  });
-
-  input?.addEventListener('change', applyScale);
-
-  resetBtn?.addEventListener('click', (ev) => {
-    ev.preventDefault();
-    resetScale();
-  });
-
-  resetScale();
-})();
-</script>
-
-<?php if ($videoEnabled): ?>
-<script>
-  // simple toggle (no recipe-render.js needed)
-  const btn = document.getElementById('toggleVideoBtn');
-  const wrap = document.getElementById('recipeVideo');
-  let shown = false;
-
-  btn.addEventListener('click', () => {
-    shown = !shown;
-    wrap.style.display = shown ? 'block' : 'none';
-    btn.textContent = shown ? 'הסתר וידאו' : 'הצג וידאו';
-  });
-</script>
-<?php endif; ?>
+<?php // video toggle removed: link only (video handled on external tab) ?>
 
 </body>
 </html>

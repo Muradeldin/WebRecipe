@@ -21,6 +21,7 @@
       <li><a href="index.html">דף הבית</a></li>
       <li><a href="recipes.php">כל המתכונים</a></li>
       <li><a href="add-recipe.php" class="active">הוסף מתכון</a></li>
+      <li><a href="recipe-calculator.php">מחשבון מתכונים</a></li>
       <li><a href="team.html">הצוות</a></li>
     </ul>
   </nav>
@@ -128,8 +129,10 @@
 </main>
 
 <footer>
-  <p>© 2025 The Flavor Forge</p>
-  <p>כל הזכויות שמורות</p>
+    <div class="footer-content">
+        <p>2026 The Flavor Forge &copy;</p>
+        <p>פותח על ידי: <strong>נטלי, אדהם, מוראד</strong></p>
+    </div>
 </footer>
 
 <script src="js/create_recipe.js"></script>

@@ -17,6 +17,7 @@
             <li><a href="#" class="active">דף הבית</a></li>
             <li><a href="recipes.php">כל המתכונים</a></li>
             <li><a href="add-recipe.php">הוסף מתכון</a></li>
+            <li><a href="recipe-calculator.php">מחשבון מתכונים</a></li>
             <li><a href="team.html">הצוות שלנו</a></li>
         </ul>
     </nav>
@@ -43,12 +44,36 @@
     </div>
 </section>
 
+<section class="interactive-section" style="margin-top: 40px;">
+    <h2 style="text-align:center; margin-bottom:30px; color:#1B3C59;">
+         סרטוני משתמשים
+    </h2>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div style="text-align: center;">
+            <h3 style="color: #1B3C59; margin-bottom: 15px;">חומוס ביתי</h3>
+            <video width="100%" controls style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                <source src="images/video/Homemade hummus.mp4" type="video/mp4">
+                הדפדפן שלך לא תומך בוידאו.
+            </video>
+        </div>
+        
+        <div style="text-align: center;">
+            <h3 style="color: #1B3C59; margin-bottom: 15px;">רולים קינדר</h3>
+            <video width="100%" controls style="border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                <source src="images/video/Kinder Rolls.mp4" type="video/mp4">
+                הדפדפן שלך לא תומך בוידאו.
+            </video>
+        </div>
+    </div>
+</section>
+
 <section id="contact" class="interactive-section">
     <h2 style="text-align:center; margin-bottom:30px; color:#1B3C59;">
         צור קשר
     </h2>
 
-    <form action="mailto:team@flavorforge.com" method="post" enctype="text/plain" onsubmit="sendMessage(event)">
+    <form id="contactForm" method="post">
         <div class="form-group">
             <label for="name">שם:</label>
             <input type="text" id="name" name="name" placeholder="הכנס את שמך" required>
@@ -72,19 +97,13 @@
         <button type="submit" class="cta-button">שלח הודעה</button>
         <div id="message-output" class="output-box" style="display:none;"></div>
     </form>
+<script src="js/contact-form.js"></script>
 </section>
 
 <footer>
     <div class="footer-content">
-        <h3>The Flavor Forge</h3>
+        <p>2026 The Flavor Forge &copy;</p>
         <p>פותח על ידי: <strong>נטלי, אדהם, מוראד</strong></p>
-        <p>
-            צרו קשר:
-            <a href="mailto:team@flavorforge.com" style="color:#F29F05;">
-                team@flavorforge.com
-            </a>
-        </p>
-        <p>&copy; 2025 פרויקט המרכז האקדמי רופין</p>
     </div>
 </footer>
 
