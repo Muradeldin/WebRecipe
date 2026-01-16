@@ -36,18 +36,80 @@ function toggleRecipeVideo(videoId, btn) {
   }
 }
 
-/* Contact Form: send mail (mailto) + show confirmation  */
-function sendMessage(event) {
-  // חשוב: לא עושים preventDefault כדי לא לחסום את mailto
-  const nameEl = document.getElementById("name");
-  const outputBox = document.getElementById("message-output");
+/* ===== Contact Form Handler ===== */
 
-  if (outputBox && nameEl) {
-    outputBox.textContent = `תודה ${nameEl.value} !   ההודעה נשלחת למייל הצוות נחזור אלייך בקרוב ל-`;
-    outputBox.style.display = "block";
-    outputBox.style.backgroundColor = "#d4edda";
-    outputBox.style.color = "#155724";
-  }
+// Validate contact form fields
+function validateContactForm(name, email, phone, message) {
+    if (!name || !email || !phone || !message) {
+        return { valid: false, error: "❌ אנא מלא את כל השדות!" };
+    }
+    // Basic email format check
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return { valid: false, error: "❌ כתובת דוא\"ל לא תקינה!" };
+    }
+    return { valid: true };
 }
+
+// Show success message using innerHTML
+function showSuccessMessage(outputBox, name) {
+    outputBox.innerHTML = `
+        <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 5px; border: 1px solid #c3e6cb;">
+            <strong>✅ הצלחה!</strong><br>
+            תודה ${name}! ההודעה נשלחת למייל הצוות.<br>
+            <small>נחזור אליך בקרוב</small>
+        </div>
+    `;
+    outputBox.style.display = "block";
+    
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+        outputBox.style.display = "none";
+    }, 5000);
+}
+
+// Initialize contact form on page load
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById("contactForm");
+    if (!form) return;
+    
+    form.addEventListener("submit", function(event) {
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const message = document.getElementById("message").value.trim();
+        
+        // Validate form fields (ALERT output)
+        const validation = validateContactForm(name, email, phone, message);
+        if (!validation.valid) {
+            window.alert(validation.error);
+            event.preventDefault();
+            return;
+        }
+        
+        // Ask for email confirmation (PROMPT output)
+        const confirmEmail = window.prompt(
+            "אנא אשר את כתובת הדוא\"ל שלך:",
+            email
+        );
+        
+        if (confirmEmail === null) {
+            window.alert("ביטול שליחה");
+            event.preventDefault();
+            return;
+        }
+        else {
+        document.getElementById("email").value = confirmEmail;
+        window.alert("כתובת הדוא\"ל אושרה!");
+        }
+        
+        // Show success message (INNERHTML output)
+        const outputBox = document.getElementById("message-output");
+        if (outputBox) {
+            showSuccessMessage(outputBox, name);
+        }
+        
+        // Form will submit via mailto: action (no preventDefault needed)
+    });
+});
 
 
