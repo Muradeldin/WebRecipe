@@ -8,20 +8,12 @@ function h(string $s): string { return htmlspecialchars($s, ENT_QUOTES, 'UTF-8')
 
 // Fetch recipes (latest first)
 $stmt = $pdo->query("
-  SELECT id, title, prep_minutes, difficulty, image_src, video_src
-  FROM recipes
-  ORDER BY id DESC
+  SELECT r.id, r.title, r.prep_minutes, r.difficulty_id, d.name as difficulty_name, r.image_src, r.video_src
+  FROM recipes r
+  LEFT JOIN difficulties d ON r.difficulty_id = d.id
+  ORDER BY r.id DESC
 ");
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Difficulty: numeric (1-5) -> Hebrew text (optional)
-$diffMap = [
-  1 => "קל",
-  2 => "קל-בינוני",
-  3 => "בינוני",
-  4 => "בינוני-קשה",
-  5 => "קשה",
-];
 ?>
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
@@ -66,8 +58,7 @@ $diffMap = [
           $title = trim((string)($r["title"] ?? "")) ?: "מתכון";
 
           $prep = $r["prep_minutes"] !== null ? (int)$r["prep_minutes"] : null;
-          $diffNum = $r["difficulty"] !== null ? (int)$r["difficulty"] : null;
-          $diffText = $diffNum !== null ? ($diffMap[$diffNum] ?? (string)$diffNum) : "";
+          $diffText = trim((string)($r["difficulty_name"] ?? ""));
 
           $metaParts = [];
           if ($prep !== null) $metaParts[] = "זמן הכנה: {$prep} דק׳";

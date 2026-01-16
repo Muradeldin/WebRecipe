@@ -11,9 +11,10 @@ if ($id <= 0) { http_response_code(404); exit("Recipe not found"); }
 
 // 1) Recipe
 $stmt = $pdo->prepare("
-  SELECT id, title, serving, difficulty, prep_minutes, image_src, video_src
-  FROM recipes
-  WHERE id = ?
+  SELECT r.id, r.title, r.serving, r.difficulty_id, d.name as difficulty_name, r.prep_minutes, r.image_src, r.video_src
+  FROM recipes r
+  LEFT JOIN difficulties d ON r.difficulty_id = d.id
+  WHERE r.id = ?
 ");
 $stmt->execute([$id]);
 $recipe = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -39,16 +40,8 @@ $stmt = $pdo->prepare("
 $stmt->execute([$id]);
 $steps = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Difficulty: DB is numeric (1-5). UI expects Hebrew text.
-$diffNum = $recipe["difficulty"] !== null ? (int)$recipe["difficulty"] : null;
-$diffMap = [
-  1 => "קל",
-  2 => "קל-בינוני",
-  3 => "בינוני",
-  4 => "בינוני-קשה",
-  5 => "קשה",
-];
-$diffText = $diffNum !== null ? ($diffMap[$diffNum] ?? (string)$diffNum) : "";
+// Difficulty: Get from difficulties table
+$diffText = trim((string)($recipe["difficulty_name"] ?? ""));
 
 // Servings: keep as text
 $servingsText = $recipe["serving"] !== null ? (string)$recipe["serving"] : "";

@@ -1,5 +1,16 @@
 <?php
 // add-recipe.php
+declare(strict_types=1);
+
+require __DIR__ . "/php_db/db.php";
+
+function h(string $s): string {
+    return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
+}
+
+// Fetch all difficulties from the database
+$stmt = $pdo->query("SELECT id, name FROM difficulties ORDER BY id ASC");
+$difficulties = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
@@ -45,8 +56,13 @@
         </div>
 
         <div class="form-group">
-          <label for="difficulty">רמת קושי (1-5)</label>
-          <input id="difficulty" name="difficulty" type="number" min="1" max="5" required placeholder="1" />
+          <label for="difficulty">רמת קושי</label>
+          <select id="difficulty" name="difficulty" required>
+            <option value="">-- בחר רמת קושי --</option>
+            <?php foreach ($difficulties as $d): ?>
+              <option value="<?= (int)$d["id"] ?>"><?= h($d["name"]) ?></option>
+            <?php endforeach; ?>
+          </select>
         </div>
       </div>
 

@@ -14,7 +14,8 @@ function fail($msg) {
 $title = trim($_POST["title"] ?? "");
 if ($title === "") fail("חסר שם מתכון.");
 $serving = ($_POST["serving"] ?? "") !== "" ? (int)$_POST["serving"] : null;
-$difficulty = ($_POST["difficulty"] ?? "") !== "" ? (int)$_POST["difficulty"] : null;
+$difficultyId = ($_POST["difficulty_id"] ?? "") !== "" ? (int)$_POST["difficulty_id"] : null;
+if ($difficultyId === null || $difficultyId <= 0) fail("חייב לבחור רמת קושי.");
 $prepMinutes = ($_POST["prep_minutes"] ?? "") !== "" ? (int)$_POST["prep_minutes"] : null;
 $videoSrc = trim($_POST["video_src"] ?? "");
 $imageSrc = trim($_POST["image_src"] ?? "");
@@ -47,14 +48,14 @@ try {
 
   // 1) Insert into recipes
   $stmtRecipe = $pdo->prepare("
-    INSERT INTO recipes (title, serving, difficulty, prep_minutes, video_src, image_src)
-    VALUES (:title, :serving, :difficulty, :prep_minutes, :video_src, :image_src)
+    INSERT INTO recipes (title, serving, difficulty_id, prep_minutes, video_src, image_src)
+    VALUES (:title, :serving, :difficulty_id, :prep_minutes, :video_src, :image_src)
   ");
 
   $stmtRecipe->execute([
     ":title" => $title,
     ":serving" => $serving,
-    ":difficulty" => $difficulty,
+    ":difficulty_id" => $difficultyId,
     ":prep_minutes" => $prepMinutes,
     ":video_src" => $videoSrc !== "" ? $videoSrc : null,
     ":image_src" => $imageSrc !== "" ? $imageSrc : null,
