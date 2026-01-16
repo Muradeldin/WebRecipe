@@ -98,8 +98,8 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
         else {
-        document.getElementById("email").value = confirmEmail;
-        window.alert("כתובת הדוא\"ל אושרה!");
+            document.getElementById("email").value = confirmEmail;
+            window.alert("כתובת הדוא\"ל אושרה!");
         }
         
         // Show success message (INNERHTML output)
