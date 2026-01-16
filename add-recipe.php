@@ -57,7 +57,7 @@ $difficulties = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <div class="form-group">
           <label for="difficulty">רמת קושי</label>
-          <select id="difficulty" name="difficulty" required>
+          <select id="difficulty" name="difficulty_id" required>
             <option value="">-- בחר רמת קושי --</option>
             <?php foreach ($difficulties as $d): ?>
               <option value="<?= (int)$d["id"] ?>"><?= h($d["name"]) ?></option>
