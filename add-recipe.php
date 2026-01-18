@@ -38,8 +38,13 @@ $difficulties = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </nav>
 </header>
 
-<h1 class="page-title">הוסף מתכון</h1>
-<p class="page-subtitle">ממלאים פרטים, מוסיפים שורות למצרכים/שלבים, ושומרים.</p>
+<div class="hero-title">
+  <div class="hero-title-content">
+    <h1 class="page-title">הוסף מתכון</h1>
+    <p class="page-subtitle">ממלאים פרטים, מוסיפים שורות למצרכים/שלבים, ושומרים.</p>
+  </div>
+</div>
+
 
 <main class="recipes-section">
   <div class="interactive-section form-card" style="text-align:right;">

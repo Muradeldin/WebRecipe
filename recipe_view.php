@@ -104,8 +104,12 @@ foreach ($steps as $s) {
   </nav>
 </header>
 
-<h1 class="page-title"><?= h((string)$recipe["title"]) ?></h1>
-<p class="page-subtitle"></p>
+<div class="hero-title">
+  <div class="hero-title-content">
+    <h1 class="page-title"><?= h((string)$recipe["title"]) ?></h1>
+    <p class="page-subtitle"></p>
+  </div>
+</div>
 
 <main class="interactive-section recipe-page">
 
