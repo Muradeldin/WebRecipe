@@ -40,10 +40,14 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </nav>
 </header>
 
-<h1 class="page-title">כל המתכונים</h1>
-<p class="page-subtitle">
-  כאן תמצאו אוסף מתכונים ביתיים. לכל מתכון יש תמונה, ובחלק מהם יש גם וידיאו להמחשה.
-</p>
+<div class="hero">
+  <div class="hero-content">
+    <h1>כל המתכונים</h1>
+    <p>
+      כאן תמצאו אוסף מתכונים ביתיים. לכל מתכון יש תמונה, ובחלק מהם יש גם וידיאו להמחשה.
+    </p>
+  </div>
+</div>
 
 <main class="recipes-section">
   <section aria-label="רשימת מתכונים" class="recipes-grid" id="recipesGrid">

@@ -17,7 +17,7 @@
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-image: url("../images/Background%20image.webp");
+    background-image: url("../images/bg.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -137,7 +137,6 @@ nav a.active {
 
 /* --- Hero + Features (index only) --- */
 .hero {
-    background-image: url('https://images.unsplash.com/photo-1495521821758-ee18ece6d660?auto=format&fit=crop&w=1000');
     background-size: cover;
     background-position: center;
     padding: 80px 20px;
@@ -201,19 +200,6 @@ footer p {
 
 
 /* --- Recipes Page --- */
-.page-title {
-    text-align: center;
-    margin: 30px 0 10px;
-    color: var(--card);
-}
-
-.page-subtitle{
-    text-align:center;
-    margin-bottom: 25px;
-    color:  #ffffff;
-    padding: 0 15px;
-    font-weight: bold;
-}
 
 .recipes-section{
     padding: 10px 20px 40px;
@@ -288,6 +274,22 @@ footer p {
 }
 
 /* ===== Recipe Details Pages (Single Recipe) ===== */
+
+.hero-title {
+    background-size: cover;
+    background-position: center;
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--navy);
+}
+
+.hero-title-content {
+    background-color: rgba(255, 255, 255, 0.95);
+    display: inline-block;
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 700px;
+}
 
 .recipe-page {
   text-align: right;

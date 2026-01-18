@@ -247,10 +247,14 @@ if ($recipeId > 0) {
     </nav>
 </header>
 
-<h1 class="page-title">מחשבון מתכונים</h1>
-<p class="page-subtitle">
-    בחר מתכון וסרגל את הכמויות לפי מספר המנות הרצוי.
-</p>
+<div class="hero-title">
+  <div class="hero-title-content">
+    <h1>מחשבון מתכונים</h1>
+    <p>
+        בחר מתכון וסרגל את הכמויות לפי מספר המנות הרצוי.
+    </p>
+  </div>
+</div>  
 
 <main class="calculator-section">
     <form method="get" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: end; margin-bottom: 30px;">
