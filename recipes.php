@@ -110,12 +110,13 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </main>
 
 <footer>
-  <p>© 2025 The Flavor Forge</p>
-  <p>כל הזכויות שמורות</p>
+    <div class="footer-content">
+        <p>2026 The Flavor Forge &copy;</p>
+        <p>פותח על ידי: <strong>מוראד, אדהם, נטלי</strong></p>
+    </div>
 </footer>
 
 <script src="js/main.js"></script>
-<!-- removed: recipes-list.js and JSON -->
 
 </body>
 </html>

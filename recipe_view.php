@@ -223,7 +223,7 @@ foreach ($steps as $s) {
 <footer>
     <div class="footer-content">
         <p>2026 The Flavor Forge &copy;</p>
-        <p>פותח על ידי: <strong>נטלי, אדהם, מוראד</strong></p>
+        <p>פותח על ידי: <strong>מוראד, אדהם, נטלי</strong></p>
     </div>
 </footer>
 
