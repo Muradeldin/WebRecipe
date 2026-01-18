@@ -95,7 +95,7 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <?php if ($hasVideo): ?>
               <div style="margin-top:10px;font-size:12px;opacity:0.85;">
-                כולל וידאו 🎥
+                כולל וידאו
               </div>
             <?php endif; ?>
           </div>

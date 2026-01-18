@@ -102,3 +102,21 @@ table input[type="number"] {
   font-size: 16px;        /* readable text */
   box-sizing: border-box; /* critical */
 }
+
+@media (max-width: 700px) {
+  .form-card { max-width: 100%; margin: 0; }
+
+  .grid-2 { grid-template-columns: 1fr; gap: 10px; }
+
+  .section-title { font-size: 16px; }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  th, td { padding: 6px; }
+
+  .row-actions { white-space: normal; }
+}

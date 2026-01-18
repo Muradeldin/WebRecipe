@@ -417,3 +417,31 @@ footer p {
 .cta-button.delete-button:hover {
   background-color: #b71c1c;
 }
+
+@media (max-width: 700px) {
+  header { padding: 12px; }
+  .site-logo { width: 80px; height: 80px; margin-bottom: 6px; }
+
+  nav ul li { display: block; margin: 10px 0; }
+  nav a { font-size: 16px; }
+
+  .interactive-section { width: 94%; padding: 18px; margin: 20px auto; }
+
+  .hero { padding: 40px 12px; }
+  .hero-content { padding: 20px; }
+  .hero h1 { font-size: 26px; }
+
+  .features { padding: 12px; gap: 12px; }
+
+  .recipes-section { padding: 10px 12px 30px; }
+  .recipes-grid { grid-template-columns: 1fr; }
+  .recipe-card img { height: 160px; }
+
+  .recipe-hero-img { max-width: 100%; }
+  .recipe-video { max-width: 100%; }
+
+  .servings-control-actions { flex-direction: column; align-items: stretch; }
+  .servings-control input[type="number"] { width: 100%; }
+
+  footer { padding: 20px 12px; }
+}
