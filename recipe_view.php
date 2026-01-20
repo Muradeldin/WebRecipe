@@ -48,9 +48,27 @@ $servingsText = $recipe["serving"] !== null ? (string)$recipe["serving"] : "";
 $servingsNumeric = is_numeric($servingsText) ? (float)$servingsText : null;
 $servingsInputDefault = $servingsNumeric !== null ? $servingsNumeric : 1;
 
-// Image fallback: logo
-$imageSrc = trim((string)($recipe["image_src"] ?? ""));
-if ($imageSrc === "") $imageSrc = "images/logo.png";
+// Construct image path from recipe title (file system)
+$title = trim((string)($recipe["title"] ?? "")) ?: "מתכון";
+$sanitizedTitle = preg_replace('/[^א-תa-z0-9]/i', '_', $title);
+$sanitizedTitle = preg_replace('/_+/', '_', $sanitizedTitle);
+$sanitizedTitle = trim($sanitizedTitle, '_');
+
+$imageSrc = "images/recipe_img/" . $sanitizedTitle;
+// Check for common image extensions
+if (file_exists("images/recipe_img/{$sanitizedTitle}.jpg")) {
+  $imageSrc .= ".jpg";
+} elseif (file_exists("images/recipe_img/{$sanitizedTitle}.png")) {
+  $imageSrc .= ".png";
+} elseif (file_exists("images/recipe_img/{$sanitizedTitle}.gif")) {
+  $imageSrc .= ".gif";
+} elseif (file_exists("images/recipe_img/{$sanitizedTitle}.webp")) {
+  $imageSrc .= ".webp";
+} elseif (file_exists("images/recipe_img/{$sanitizedTitle}.jpeg")) {
+  $imageSrc .= ".jpeg";
+} else {
+  $imageSrc = "images/logo.png";
+}
 
 // Video
 $videoSrc = trim((string)($recipe["video_src"] ?? ""));

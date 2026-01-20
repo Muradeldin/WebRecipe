@@ -18,7 +18,49 @@ $difficultyId = ($_POST["difficulty_id"] ?? "") !== "" ? (int)$_POST["difficulty
 if ($difficultyId === null || $difficultyId <= 0) fail("חייב לבחור רמת קושי.");
 $prepMinutes = ($_POST["prep_minutes"] ?? "") !== "" ? (int)$_POST["prep_minutes"] : 10;
 $videoSrc = trim($_POST["video_src"] ?? "");
-$imageSrc = trim($_POST["image_src"] ?? "");
+
+// Handle file upload
+$uploadedImagePath = null;
+if (isset($_FILES["fileToUpload"]) && $_FILES["fileToUpload"]["error"] === UPLOAD_ERR_OK) {
+  $target_dir = __DIR__ . "/../images/recipe_img/";
+  
+  // Create directory if it doesn't exist
+  if (!is_dir($target_dir)) {
+    mkdir($target_dir, 0755, true);
+  }
+  
+  $imageFileType = strtolower(pathinfo($_FILES["fileToUpload"]["name"], PATHINFO_EXTENSION));
+  
+  // Sanitize recipe title for filename
+  $sanitizedTitle = preg_replace('/[^א-תa-z0-9]/i', '_', $title);
+  $sanitizedTitle = preg_replace('/_+/', '_', $sanitizedTitle);
+  $sanitizedTitle = trim($sanitizedTitle, '_');
+  
+  // Create filename using recipe title
+  $fileName = $sanitizedTitle . '.' . $imageFileType;
+  $target_file = $target_dir . $fileName;
+  
+  // Check if image file is actual image
+  $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+  if ($check === false) {
+    fail("הקובץ שהועלה אינו תמונה.");
+  }
+  
+  // Check file size (5MB max)
+  if ($_FILES["fileToUpload"]["size"] > 5000000) {
+    fail("הקובץ גדול מדי. מקסימום 5MB.");
+  }
+  
+  // Allow certain file formats
+  if (!in_array($imageFileType, ["jpg", "jpeg", "png", "gif", "webp"])) {
+    fail("רק קבצי JPG, JPEG, PNG, GIF ו-WEBP מותרים.");
+  }
+  
+  // Try to upload file (overwrite if exists)
+  if (!move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+    fail("שגיאה בהעלאת הקובץ.");
+  }
+}
 
 $ingredients = $_POST["ingredients"] ?? [];
 $steps = $_POST["steps"] ?? [];
@@ -48,8 +90,8 @@ try {
 
   // 1) Insert into recipes
   $stmtRecipe = $pdo->prepare("
-    INSERT INTO recipes (title, serving, difficulty_id, prep_minutes, video_src, image_src)
-    VALUES (:title, :serving, :difficulty_id, :prep_minutes, :video_src, :image_src)
+    INSERT INTO recipes (title, serving, difficulty_id, prep_minutes, video_src)
+    VALUES (:title, :serving, :difficulty_id, :prep_minutes, :video_src)
   ");
 
   $stmtRecipe->execute([
@@ -58,7 +100,6 @@ try {
     ":difficulty_id" => $difficultyId,
     ":prep_minutes" => $prepMinutes,
     ":video_src" => $videoSrc !== "" ? $videoSrc : null,
-    ":image_src" => $imageSrc !== "" ? $imageSrc : null,
   ]);
 
   $recipeId = (int)$pdo->lastInsertId();

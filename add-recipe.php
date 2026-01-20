@@ -48,7 +48,7 @@ $difficulties = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <main class="recipes-section">
   <div class="interactive-section form-card" style="text-align:right;">
-    <form method="post" action="/php_db/store-recipe.php" id="addRecipeForm" novalidate>
+    <form method="post" action="/php_db/store-recipe.php" id="addRecipeForm" enctype="multipart/form-data" novalidate>
       <div class="form-group">
         <label for="title">שם המתכון</label>
         <input id="title" name="title" type="text" required placeholder="לדוגמה: עוגת שוקולד" />
@@ -78,14 +78,14 @@ $difficulties = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <div class="form-group">
-          <label for="image_src">קישור לתמונה (אופציונלי)</label>
-          <input id="image_src" name="image_src" type="text" placeholder="https://..." />
+          <label for="video_src">קישור לוידיאו (אופציונלי)</label>
+          <input id="video_src" name="video_src" type="text" placeholder="https://..." />
         </div>
       </div>
-
+      
       <div class="form-group">
-        <label for="video_src">קישור לוידאו (אופציונלי)</label>
-        <input id="video_src" name="video_src" type="text" placeholder="https://..." />
+        <label for="fileToUpload">העלאת תמונה למתכון</label>
+        <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" />
       </div>
 
       <div class="section-title">מצרכים</div>

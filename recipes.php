@@ -69,8 +69,26 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
           if ($diffText !== "") $metaParts[] = "רמת קושי: {$diffText}";
           $meta = implode(" • ", $metaParts);
 
-          $img = trim((string)($r["image_src"] ?? ""));
-          if ($img === "") $img = "images/logo.png";
+          // Construct image path from recipe title
+          $sanitizedTitle = preg_replace('/[^א-תa-z0-9]/i', '_', $title);
+          $sanitizedTitle = preg_replace('/_+/', '_', $sanitizedTitle);
+          $sanitizedTitle = trim($sanitizedTitle, '_');
+          
+          $img = "images/recipe_img/" . $sanitizedTitle;
+          // Check for common image extensions
+          if (file_exists("images/recipe_img/{$sanitizedTitle}.jpg")) {
+            $img .= ".jpg";
+          } elseif (file_exists("images/recipe_img/{$sanitizedTitle}.png")) {
+            $img .= ".png";
+          } elseif (file_exists("images/recipe_img/{$sanitizedTitle}.gif")) {
+            $img .= ".gif";
+          } elseif (file_exists("images/recipe_img/{$sanitizedTitle}.webp")) {
+            $img .= ".webp";
+          } elseif (file_exists("images/recipe_img/{$sanitizedTitle}.jpeg")) {
+            $img .= ".jpeg";
+          } else {
+            $img = "images/logo.png";
+          }
 
           $hasVideo = trim((string)($r["video_src"] ?? "")) !== "";
 
