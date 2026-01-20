@@ -104,7 +104,7 @@ $difficulties = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <input type="text" name="ingredients[name][]" required placeholder="קמח">
             </td>
             <td>
-              <input type="number" step="0.01" name="ingredients[amount][]" required placeholder="1">
+              <input type="number" min="0" step="0.01" name="ingredients[amount][]" required placeholder="1" onkeydown="return !['-','+','e','E'].includes(event.key);">
             </td>
             <td>
               <input type="text" name="ingredients[measurement][]" required placeholder="כוס">
