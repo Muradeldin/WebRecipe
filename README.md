@@ -2,6 +2,8 @@
 
 A recipe management web application built with PHP, MySQL, and JavaScript. Allows users to create, manage, and explore recipes through an easy-to-use interface.
 
+Website: https://the-flavor-forge.byethost22.com/
+
 ## Features
 
 - Digital Recipe Book - Create and store recipes with detailed information
@@ -10,7 +12,6 @@ A recipe management web application built with PHP, MySQL, and JavaScript. Allow
 - Recipe Calculator - Calculate recipe portions and ingredient quantities
 - Team Page - Information about the creators
 - Responsive Design - Works on different screen sizes
-- Hebrew Language Support - Full RTL interface for Hebrew users
 
 ## Project Structure
 
