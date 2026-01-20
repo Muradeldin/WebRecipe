@@ -13,10 +13,10 @@ function fail($msg) {
 
 $title = trim($_POST["title"] ?? "");
 if ($title === "") fail("חסר שם מתכון.");
-$serving = ($_POST["serving"] ?? "") !== "" ? (int)$_POST["serving"] : null;
+$serving = ($_POST["serving"] ?? "") !== "" ? (int)$_POST["serving"] : 2;
 $difficultyId = ($_POST["difficulty_id"] ?? "") !== "" ? (int)$_POST["difficulty_id"] : null;
 if ($difficultyId === null || $difficultyId <= 0) fail("חייב לבחור רמת קושי.");
-$prepMinutes = ($_POST["prep_minutes"] ?? "") !== "" ? (int)$_POST["prep_minutes"] : null;
+$prepMinutes = ($_POST["prep_minutes"] ?? "") !== "" ? (int)$_POST["prep_minutes"] : 10;
 $videoSrc = trim($_POST["video_src"] ?? "");
 $imageSrc = trim($_POST["image_src"] ?? "");
 

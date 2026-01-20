@@ -139,11 +139,14 @@ $difficulties = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <button type="submit" class="cta-button" style="margin-top: 16px;">שמור מתכון</button>
 
       <?php if (isset($_GET["ok"]) && $_GET["ok"] === "1"): ?>
-        <div class="success" style="display:block;">המתכון נשמר בהצלחה ✅</div>
+        <div class="success" style="display:block;">המתכון נשמר בהצלחה</div>
       <?php endif; ?>
 
       <?php if (isset($_GET["err"])): ?>
         <div class="error" style="display:block;">שגיאה: <?php echo htmlspecialchars($_GET["err"]); ?></div>
+        <script>
+          alert("Adding Recipe Failed, Please Check the Error message below");
+        </script>
       <?php endif; ?>
     </form>
   </div>
